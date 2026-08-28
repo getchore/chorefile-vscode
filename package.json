@@ -1,0 +1,58 @@
+{
+  "name": "chorefile",
+  "displayName": "chorefile",
+  "description": "Syntax highlighting for the chorefile task language.",
+  "version": "0.1.0",
+  "publisher": "getchore",
+  "license": "MIT",
+  "icon": "icon.png",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "keywords": [
+    "chore",
+    "chorefile",
+    "task runner",
+    "build"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/getchore/chorefile-vscode"
+  },
+  "bugs": {
+    "url": "https://github.com/getchore/chorefile-vscode/issues"
+  },
+  "homepage": "https://github.com/getchore/chorefile-vscode",
+  "contributes": {
+    "languages": [
+      {
+        "id": "chorefile",
+        "aliases": [
+          "chorefile",
+          "chore"
+        ],
+        "filenames": [
+          "chorefile"
+        ],
+        "extensions": [
+          ".chore"
+        ],
+        "configuration": "./language-configuration.json",
+        "icon": {
+          "light": "./icon.png",
+          "dark": "./icon.png"
+        }
+      }
+    ],
+    "grammars": [
+      {
+        "language": "chorefile",
+        "scopeName": "source.chorefile",
+        "path": "./syntaxes/chorefile.tmLanguage.json"
+      }
+    ]
+  }
+}

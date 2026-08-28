@@ -1,0 +1,232 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "chorefile",
+  "scopeName": "source.chorefile",
+  "patterns": [
+    { "include": "#comment" },
+    { "include": "#task-definition" },
+    { "include": "#include-statement" },
+    { "include": "#assignment" },
+    { "include": "#expression" }
+  ],
+  "repository": {
+    "expression": {
+      "patterns": [
+        { "include": "#string-double" },
+        { "include": "#string-single" },
+        { "include": "#capture" },
+        { "include": "#variables" },
+        { "include": "#keywords" },
+        { "include": "#word-operators" },
+        { "include": "#builtins" },
+        { "include": "#namespaced-name" },
+        { "include": "#operators" }
+      ]
+    },
+
+    "comment": {
+      "name": "comment.line.number-sign.chorefile",
+      "match": "(?:^|(?<=\\s))(#).*$",
+      "captures": {
+        "1": { "name": "punctuation.definition.comment.chorefile" }
+      }
+    },
+
+    "task-definition": {
+      "name": "meta.task.declaration.chorefile",
+      "begin": "^\\s*(task)\\s+([A-Za-z_][A-Za-z0-9_.:-]*)",
+      "beginCaptures": {
+        "1": { "name": "keyword.control.task.chorefile" },
+        "2": { "name": "entity.name.function.chorefile" }
+      },
+      "end": "(?=\\{)|$",
+      "patterns": [
+        { "include": "#comment" },
+        { "include": "#string-double" },
+        { "include": "#string-single" },
+        { "include": "#capture" },
+        { "include": "#variables" },
+        {
+          "match": "=",
+          "name": "keyword.operator.assignment.chorefile"
+        },
+        {
+          "match": "(?<![\\w/.$-])[A-Za-z_][A-Za-z0-9_]*",
+          "name": "variable.parameter.chorefile"
+        }
+      ]
+    },
+
+    "include-statement": {
+      "name": "meta.include.chorefile",
+      "match": "^\\s*(include)\\s+(\\S+)(?:\\s+(as)\\s+([A-Za-z_][A-Za-z0-9_]*))?",
+      "captures": {
+        "1": { "name": "keyword.control.import.include.chorefile" },
+        "2": { "name": "string.unquoted.include.chorefile" },
+        "3": { "name": "keyword.control.import.as.chorefile" },
+        "4": { "name": "entity.name.namespace.chorefile" }
+      }
+    },
+
+    "assignment": {
+      "match": "^\\s*([A-Za-z_][A-Za-z0-9_]*)(=)",
+      "captures": {
+        "1": { "name": "variable.other.assignment.chorefile" },
+        "2": { "name": "keyword.operator.assignment.chorefile" }
+      }
+    },
+
+    "string-double": {
+      "name": "string.quoted.double.chorefile",
+      "begin": "\"",
+      "end": "\"",
+      "beginCaptures": {
+        "0": { "name": "punctuation.definition.string.begin.chorefile" }
+      },
+      "endCaptures": {
+        "0": { "name": "punctuation.definition.string.end.chorefile" }
+      },
+      "patterns": [
+        {
+          "name": "constant.character.escape.chorefile",
+          "match": "\\\\[\\\\\"$]"
+        },
+        { "include": "#capture" },
+        { "include": "#variables" }
+      ]
+    },
+
+    "string-single": {
+      "name": "string.quoted.single.chorefile",
+      "begin": "'",
+      "end": "'",
+      "beginCaptures": {
+        "0": { "name": "punctuation.definition.string.begin.chorefile" }
+      },
+      "endCaptures": {
+        "0": { "name": "punctuation.definition.string.end.chorefile" }
+      }
+    },
+
+    "capture": {
+      "name": "meta.command-substitution.chorefile",
+      "begin": "\\$\\(",
+      "end": "\\)",
+      "beginCaptures": {
+        "0": { "name": "punctuation.definition.command-substitution.begin.chorefile" }
+      },
+      "endCaptures": {
+        "0": { "name": "punctuation.definition.command-substitution.end.chorefile" }
+      },
+      "patterns": [
+        { "include": "#expression" }
+      ]
+    },
+
+    "variables": {
+      "patterns": [
+        {
+          "comment": "Read-only builtin variables, braced form.",
+          "match": "(\\$\\{)(OS|ARCH|ENV|PLATFORM|TRIPLE|EXE|HOME|ROOT|CWD|TASK|NOW)(\\})",
+          "captures": {
+            "1": { "name": "punctuation.definition.variable.chorefile" },
+            "2": { "name": "variable.language.chorefile" },
+            "3": { "name": "punctuation.definition.variable.chorefile" }
+          }
+        },
+        {
+          "comment": "Read-only builtin variables.",
+          "name": "variable.language.chorefile",
+          "match": "\\$(OS|ARCH|ENV|PLATFORM|TRIPLE|EXE|HOME|ROOT|CWD|TASK|NOW)\\b"
+        },
+        {
+          "comment": "${name}",
+          "match": "(\\$\\{)([A-Za-z_][A-Za-z0-9_]*)(\\})",
+          "captures": {
+            "1": { "name": "punctuation.definition.variable.chorefile" },
+            "2": { "name": "variable.other.chorefile" },
+            "3": { "name": "punctuation.definition.variable.chorefile" }
+          }
+        },
+        {
+          "comment": "$@ is every argument, $# their count.",
+          "name": "variable.other.special.chorefile",
+          "match": "\\$[@#]"
+        },
+        {
+          "comment": "Positional parameters, $1 upwards.",
+          "name": "variable.other.positional.chorefile",
+          "match": "\\$[0-9]+"
+        },
+        {
+          "name": "variable.other.chorefile",
+          "match": "\\$[A-Za-z_][A-Za-z0-9_]*"
+        }
+      ]
+    },
+
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.chorefile",
+          "match": "(?<![\\w/.$-])(task|if|else|for|in|try|exit|return)(?![\\w-])"
+        },
+        {
+          "name": "keyword.control.import.chorefile",
+          "match": "(?<![\\w/.$-])(include|as)(?![\\w-])"
+        }
+      ]
+    },
+
+    "word-operators": {
+      "name": "keyword.operator.word.chorefile",
+      "match": "(?<![\\w/.$-])(contains|starts-with|ends-with)(?![\\w-])"
+    },
+
+    "builtins": {
+      "patterns": [
+        {
+          "name": "support.function.builtin.chorefile",
+          "match": "(?<![\\w/.$-])(download|extract|archive|copy|move|remove|mkdir|chmod|which|find|read|write|sha256|exists|changed|echo|env|fail|sleep)(?![\\w-])"
+        },
+        {
+          "comment": "cd is resolved before builtins and PATH, but reads as one.",
+          "name": "support.function.builtin.cd.chorefile",
+          "match": "(?<![\\w/.$-])cd(?![\\w-])"
+        }
+      ]
+    },
+
+    "namespaced-name": {
+      "comment": "A task pulled in by `include ... as ns` is called as ns::name.",
+      "name": "entity.name.function.chorefile",
+      "match": "(?<![\\w/.$-])[A-Za-z_][A-Za-z0-9_-]*(?:::[A-Za-z_][A-Za-z0-9_-]*)+"
+    },
+
+    "operators": {
+      "patterns": [
+        {
+          "name": "keyword.operator.comparison.chorefile",
+          "match": "==|!="
+        },
+        {
+          "name": "keyword.operator.logical.chorefile",
+          "match": "&&|\\|\\||!"
+        },
+        {
+          "name": "keyword.operator.redirect.chorefile",
+          "match": "(?<![\\w.$-])2>|>>|>"
+        },
+        {
+          "name": "keyword.operator.pipe.chorefile",
+          "match": "\\|"
+        },
+        {
+          "comment": "A leading ^ forces PATH lookup, skipping tasks and builtins.",
+          "name": "keyword.operator.force-path.chorefile",
+          "match": "(?<![\\w/.$-])\\^(?=[A-Za-z_])"
+        }
+      ]
+    }
+  }
+}
