@@ -169,7 +169,7 @@
       "patterns": [
         {
           "name": "keyword.control.chorefile",
-          "match": "(?<![\\w/.$-])(task|if|else|for|in|try|exit|return)(?![\\w-])"
+          "match": "(?<![\\w/.$-])(task|if|else|for|in|try|exit|return|require)(?![\\w-])"
         },
         {
           "name": "keyword.control.import.chorefile",
