@@ -14,18 +14,28 @@ integration.
 
 ## Install
 
-Download `chorefile.vsix` from the [latest release](https://github.com/getchore/chorefile-vscode/releases/latest), then:
-
+```sh
+curl -fsSL https://github.com/getchore/chorefile-vscode/releases/latest/download/chorefile.vsix -o /tmp/chorefile.vsix \
+  && code --install-extension /tmp/chorefile.vsix
 ```
-code --install-extension chorefile.vsix
+
+PowerShell:
+
+```powershell
+irm https://github.com/getchore/chorefile-vscode/releases/latest/download/chorefile.vsix -OutFile $env:TEMP\chorefile.vsix
+code --install-extension $env:TEMP\chorefile.vsix
 ```
 
-The same file works in Cursor (`cursor --install-extension chorefile.vsix`) and
-VSCodium (`codium --install-extension chorefile.vsix`). You can also install it
-from the editor: Extensions view, the `...` menu, "Install from VSIX".
+`latest/download` resolves server side, so the URL never changes between
+releases. Swap `code` for `cursor` or `codium` to install into those.
 
-The extension is not on a marketplace, so there are no automatic updates yet.
-To upgrade, download the newer `.vsix` and run the same command again.
+Or download `chorefile.vsix` from the [latest release][rel] and use the
+Extensions panel, "..." menu, Install from VSIX.
+
+[rel]: https://github.com/getchore/chorefile-vscode/releases/latest
+
+There are no automatic updates yet, since the extension is not on a marketplace.
+Run the same command again to move to a newer release.
 
 ## License
 
