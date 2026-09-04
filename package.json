@@ -2,7 +2,7 @@
   "name": "chorefile",
   "displayName": "chorefile",
   "description": "Syntax highlighting for the chorefile task language.",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "publisher": "getchore",
   "license": "MIT",
   "icon": "icon.png",

@@ -140,6 +140,16 @@
           "match": "\\$(OS|ARCH|ENV|PLATFORM|TRIPLE|EXE|HOME|ROOT|CWD|TASK|NOW)\\b"
         },
         {
+          "comment": "$env::NAME reads the environment; $ns::name reads an include's global.",
+          "match": "(\\$)([A-Za-z_][A-Za-z0-9_]*)(::)([A-Za-z_][A-Za-z0-9_]*)",
+          "captures": {
+            "1": { "name": "punctuation.definition.variable.chorefile" },
+            "2": { "name": "entity.name.namespace.chorefile" },
+            "3": { "name": "punctuation.separator.namespace.chorefile" },
+            "4": { "name": "variable.other.chorefile" }
+          }
+        },
+        {
           "comment": "${name}",
           "match": "(\\$\\{)([A-Za-z_][A-Za-z0-9_]*)(\\})",
           "captures": {
@@ -169,7 +179,7 @@
       "patterns": [
         {
           "name": "keyword.control.chorefile",
-          "match": "(?<![\\w/.$-])(task|if|else|for|in|try|exit|return|require)(?![\\w-])"
+          "match": "(?<![\\w/.$-])(task|if|else|for|in|try|exit|return|require|script)(?![\\w-])"
         },
         {
           "name": "keyword.control.import.chorefile",
@@ -187,7 +197,7 @@
       "patterns": [
         {
           "name": "support.function.builtin.chorefile",
-          "match": "(?<![\\w/.$-])(download|extract|archive|copy|move|remove|mkdir|chmod|which|find|read|write|sha256|exists|changed|echo|env|fail|sleep|parallel)(?![\\w-])"
+          "match": "(?<![\\w/.$-])(download|extract|archive|copy|move|remove|mkdir|chmod|which|find|read|write|sha256|exists|changed|echo|env|dotenv|fail|sleep|spawn|parallel)(?![\\w-])"
         },
         {
           "comment": "cd is resolved before builtins and PATH, but reads as one.",
@@ -215,7 +225,7 @@
         },
         {
           "name": "keyword.operator.redirect.chorefile",
-          "match": "(?<![\\w.$-])2>|>>|>"
+          "match": "(?<![\\w.$-])2>&1|2>|>>|>"
         },
         {
           "name": "keyword.operator.pipe.chorefile",

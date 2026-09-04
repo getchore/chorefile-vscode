@@ -3,7 +3,8 @@
 Syntax highlighting for [chore](https://github.com/getchore/chore) task files.
 
 It applies to any file named `chorefile` and to any file with the `.chore`
-extension, which is what `include` pulls in. It colors comments, `task`
+extension, which is what `include` pulls in: `rust.chore`, `release.chore`,
+`.github/ci.chore`. It colors comments, `task`
 definitions and their parameters, the control keywords, the builtin commands,
 the read-only builtin variables such as `$OS` and `$ROOT`, `$var` interpolation
 inside double-quoted strings, `$(...)` captures, and the comparison, logical,
